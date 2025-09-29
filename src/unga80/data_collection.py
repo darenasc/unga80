@@ -102,7 +102,7 @@ def get_video_url_list(
 
 def get_corpus_from_file(
     country: str, start: int = 0, end: int = 3600, path: Path = DATA_DIR / "2025"
-) -> str:
+) -> str | None:
     """Returns a string with the transcript of a video.
 
     Args:
@@ -117,6 +117,10 @@ def get_corpus_from_file(
     Returns:
         str: A string with the transcript of a video.
     """
+    if not (path / f"{country}.json").exists():
+        print(f"Transcript for {country} not found")
+        return None
+
     with open(path / f"{country}.json") as f:
         json_data = json.load(f)
     corpus = [x["text"] for x in json_data if x["start"] > start and x["start"] < end]

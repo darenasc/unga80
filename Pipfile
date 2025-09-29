@@ -9,6 +9,7 @@ jupyter = "*"
 pandas = "*"
 requests = "*"
 ollama = "*"
+streamlit = "*"
 
 [dev-packages]
 black = {extras = ["jupyter"], version = "*"}
