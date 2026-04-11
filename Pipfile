@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 pandas = "*"
 requests = "*"
-streamlit = "*"
 geopandas = "*"
 matplotlib = "*"
 plotly = "*"

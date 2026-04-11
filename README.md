@@ -45,7 +45,7 @@ flowchart LR
 
 ## Usage locally
 
-### Prerequisits
+### Prerequisites
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
