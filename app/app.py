@@ -121,6 +121,12 @@ with st.sidebar:
         )
         st.image(f'{country_info[0]["coatOfArms"]["png"]}')
 
+    st.divider()
+
+    st.markdown(
+        "[Feedback and comments are welcomed](https://github.com/darenasc/unga80/issues)"
+    )
+
 
 col1, col2 = st.columns(2)
 
