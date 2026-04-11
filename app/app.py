@@ -111,9 +111,10 @@ with st.sidebar:
                 for x in country_info[0]["gini"].keys()
             ][0]
         )
-        st.caption(
-            f'Borders: {", ".join(geo_data[geo_data["ADM0_A3"].isin(country_info[0]["borders"])].ADMIN.to_list())}'
-        )
+        if country_info[0].get("borders"):
+            st.caption(
+                f'Borders: {", ".join(geo_data[geo_data["ADM0_A3"].isin(country_info[0].get("borders"))].ADMIN.to_list())}'
+            )
         st.image(
             f'{country_info[0]["flags"]["png"]}',
             caption=f'{country_info[0]["flags"]["alt"]}',
