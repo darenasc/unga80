@@ -1,6 +1,5 @@
 import sqlite3
 from pathlib import Path
-from pydoc import source_synopsis
 from random import randrange
 
 import geopandas as gpd
