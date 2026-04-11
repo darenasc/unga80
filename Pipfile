@@ -4,17 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ipykernel = "*"
-jupyter = "*"
 pandas = "*"
 requests = "*"
-ollama = "*"
 streamlit = "*"
 geopandas = "*"
-pydeck = "*"
 matplotlib = "*"
-altair = "*"
-pyarrow = "*"
 plotly = "*"
 python-restcountries = "*"
 
@@ -22,8 +16,6 @@ python-restcountries = "*"
 black = {extras = ["jupyter"], version = "*"}
 mypy = "*"
 pylint = "*"
-youtube-transcript-api = "*"
-tqdm = "*"
 
 [requires]
 python_version = "3.10"
