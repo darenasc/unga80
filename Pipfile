@@ -10,6 +10,13 @@ pandas = "*"
 requests = "*"
 ollama = "*"
 streamlit = "*"
+geopandas = "*"
+pydeck = "*"
+matplotlib = "*"
+altair = "*"
+pyarrow = "*"
+plotly = "*"
+python-restcountries = "*"
 
 [dev-packages]
 black = {extras = ["jupyter"], version = "*"}

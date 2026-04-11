@@ -15,7 +15,8 @@ QUERIES = {
                 summary TEXT,
                 countries_mentioned TEXT,
                 risks TEXT,
-                haiku TEXT
+                haiku TEXT,
+                word TEXT
                 );
                 """,
     "insert": """INSERT INTO countries (country, url, full_speech) VALUES (?, ?, ?);""",
