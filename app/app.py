@@ -62,40 +62,37 @@ with st.sidebar:
         df["country"].sort_values().to_list(),
         index=st.session_state.random_initial_country,
     )  # type:ignore
+    ISO_3 = df[df["country"] == country_selection].iso_3.values[0]
 
-if country_selection in geo_data["ADMIN"].unique():
-    country_info = get_country_information(
-        geo_data[geo_data["ADMIN"] == country_selection]["ADM0_A3"].values[0]
-    )
+country_info = get_country_information(iso_3=ISO_3)
+if country_info:
     title = f"UNGA80 {country_info[0]['flag']} {country_selection} "
 else:
-    country_info = {}
     title = f"UNGA80 {country_selection}"
 
 st.title(title)
 
 with st.sidebar:
     st.divider()
-    if country_selection in geo_data["ADMIN"].unique():
+    if ISO_3 in geo_data["ADM0_A3"].unique():
+        st.caption(f'{geo_data[geo_data["ADM0_A3"]==ISO_3]["CONTINENT"].values[0]}')
         st.caption(
-            f'{geo_data[geo_data["ADMIN"]==country_selection]["CONTINENT"].values[0]}'
+            f'(Economy) {geo_data[geo_data["ADM0_A3"]==ISO_3]["ECONOMY"].values[0].split(". ")[-1]}'
         )
         st.caption(
-            f'(Economy) {geo_data[geo_data["ADMIN"]==country_selection]["ECONOMY"].values[0].split(". ")[-1]}'
+            f'(Income group) {geo_data[geo_data["ADM0_A3"]==ISO_3]["INCOME_GRP"].values[0].split(". ")[-1]}'
         )
         st.caption(
-            f'(Income group) {geo_data[geo_data["ADMIN"]==country_selection]["INCOME_GRP"].values[0].split(". ")[-1]}'
+            f'Population: {geo_data[geo_data["ADM0_A3"]==ISO_3]["POP_EST"].apply(int).values[0]:,} (Est. {geo_data[geo_data["ADM0_A3"]==ISO_3]["POP_YEAR"].values[0]})'
         )
         st.caption(
-            f'Population: {geo_data[geo_data["ADMIN"]==country_selection]["POP_EST"].apply(int).values[0]:,} (Est. {geo_data[geo_data["ADMIN"]==country_selection]["POP_YEAR"].values[0]})'
-        )
-        st.caption(
-            f'GDP: USD${geo_data[geo_data["ADMIN"]==country_selection]["GDP_MD"].apply(int).values[0]:,}M ({geo_data[geo_data["ADMIN"]==country_selection]["GDP_YEAR"].apply(int).values[0]})'
+            f'GDP: USD${geo_data[geo_data["ADM0_A3"]==ISO_3]["GDP_MD"].apply(int).values[0]:,}M ({geo_data[geo_data["ADM0_A3"]==ISO_3]["GDP_YEAR"].apply(int).values[0]})'
         )
     st.divider()
 
     if country_info:
         st.caption(f'Capital: {country_info[0]["capital"][0]}')
+        st.caption(f'Area: {country_info[0].get("area")} km2')
         st.caption(
             f'Timeszones: {", ".join([x for x in country_info[0]["timezones"]])}'
         )
@@ -105,12 +102,13 @@ with st.sidebar:
         st.caption(
             f'Languages: {", ".join([country_info[0]["languages"][x] for x in country_info[0]["languages"].keys()])}'
         )
-        st.caption(
-            [
-                f'Gini ({x}): {country_info[0]["gini"][x]}'
-                for x in country_info[0]["gini"].keys()
-            ][0]
-        )
+        if country_info[0].get("gini"):
+            st.caption(
+                [
+                    f'Gini ({x}): {country_info[0]["gini"][x]}'
+                    for x in country_info[0]["gini"].keys()
+                ][0]
+            )
         if country_info[0].get("borders"):
             st.caption(
                 f'Borders: {", ".join(geo_data[geo_data["ADM0_A3"].isin(country_info[0].get("borders"))].ADMIN.to_list())}'
@@ -131,15 +129,11 @@ with st.sidebar:
 col1, col2 = st.columns(2)
 
 with col1:
-    if country_selection in geo_data["ADMIN"].unique():
-        # ADM0_A3
-        fig = px.choropleth(
-            locations=[
-                geo_data[geo_data["ADMIN"] == country_selection]["ADM0_A3"].values[0]
-            ],
-            locationmode="ISO-3",
-        )
-        st.plotly_chart(fig)
+    fig = px.choropleth(
+        locations=[ISO_3],
+        locationmode="ISO-3",
+    )
+    st.plotly_chart(fig)
 
     if df[df["country"] == country_selection]["summary"].values[0]:
         st.header("Summary")

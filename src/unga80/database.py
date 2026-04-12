@@ -10,6 +10,7 @@ DB = DATA_DIR / "countries.db"
 QUERIES = {
     "create": """CREATE TABLE IF NOT EXISTS countries (
                 country TEXT,
+                iso_3 TEXT,
                 url TEXT,
                 full_speech TEXT,
                 summary TEXT,
