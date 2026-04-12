@@ -92,7 +92,7 @@ with st.sidebar:
 
     if country_info:
         st.caption(f'Capital: {country_info[0]["capital"][0]}')
-        st.caption(f'Area: {country_info[0].get("area")} km2')
+        st.caption(f'Area: {country_info[0].get("area"):,} km2')
         st.caption(
             f'Timeszones: {", ".join([x for x in country_info[0]["timezones"]])}'
         )
