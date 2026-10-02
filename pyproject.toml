@@ -1,34 +1,35 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "UNGA80"
-dynamic = ["version"]
-authors = [
-  { name="Diego Arenas", email="darenasc@gmail.com" }
-]
-maintainers = [
-  { name="Diego Arenas", email="darenasc@gmail.com" }
-]
-description = "Speech analysis from UNGA80."
+name = "unga80"
+version = "0.1.0"
+authors = [{ name = "Diego Arenas", email = "darenasc@gmail.com" }]
+maintainers = [{ name = "Diego Arenas", email = "darenasc@gmail.com" }]
+description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
-  "tqdm",
-  "openpyxl",
-  "pandas",
-  "nbconvert",
+    "geopandas>=1.2.0",
+    "ollama>=0.6.3",
+    "pandas>=3.0.6",
+    "plotly>=7.1.0",
+    "requests>=2.34.2",
+    "streamlit>=1.64.0",
+    "tqdm>=4.70.1",
+    "youtube-transcript-api>=1.2.4",
 ]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "flake8>=7.4.1",
+    "ipykernel>=7.4.0",
+    "isort>=9.0.2",
+    "jupyter>=1.1.1",
+    "mypy>=2.4.0",
+    "pandas-stubs>=3.0.5.260914",
+    "pylint>=4.1.1",
+    "types-tqdm>=4.70.0.20260906",
 ]
-[project.optional-dependencies]
-database = [
-  "psycopg2-binary",
-]
+
 [project.urls]
 Homepage = "https://github.com/darenasc/unga80"
 Issues = "https://github.com/darenasc/unga80/issues"

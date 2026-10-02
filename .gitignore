@@ -165,3 +165,4 @@ output/*
 Pipfile.lock
 *.DS_Store
 Pipfile copy
+.python-version

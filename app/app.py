@@ -5,7 +5,6 @@ from random import randrange
 import geopandas as gpd
 import pandas as pd
 import plotly.express as px
-import requests
 import streamlit as st
 
 st.set_page_config(
@@ -16,7 +15,7 @@ st.set_page_config(
 
 
 @st.cache_data
-def get_data(db: Path):
+def get_data(db: Path) -> pd.DataFrame:
     """Returns a pd.DataFrame with the following columns:
     - country
     - url
@@ -37,16 +36,6 @@ def get_data(db: Path):
     return df
 
 
-def get_country_information(iso_3: str) -> dict:
-    """ADM0_A3 is iso_3"""
-    country_rest = f"https://restcountries.com/v3.1/alpha/{iso_3}"
-    response = requests.get(country_rest)
-    if response.ok:
-        return response.json()
-    else:
-        return {}
-
-
 df = get_data(Path(__file__).absolute().parent / "countries.db")
 geo_data = gpd.read_file(
     Path(__file__).absolute().parent / "ne_110m_admin_0_countries.zip"
@@ -61,14 +50,10 @@ with st.sidebar:
         "Country",
         df["country"].sort_values().to_list(),
         index=st.session_state.random_initial_country,
-    )  # type:ignore
+    )  # type: ignore
     ISO_3 = df[df["country"] == country_selection].iso_3.values[0]
 
-country_info = get_country_information(iso_3=ISO_3)
-if country_info:
-    title = f"UNGA80 {country_info[0]['flag']} {country_selection} "
-else:
-    title = f"UNGA80 {country_selection}"
+title = f"UNGA80 {country_selection}"
 
 st.title(title)
 
@@ -77,10 +62,10 @@ with st.sidebar:
     if ISO_3 in geo_data["ADM0_A3"].unique():
         st.caption(f'{geo_data[geo_data["ADM0_A3"]==ISO_3]["CONTINENT"].values[0]}')
         st.caption(
-            f'(Economy) {geo_data[geo_data["ADM0_A3"]==ISO_3]["ECONOMY"].values[0].split(". ")[-1]}'
+            f'(Economy) {str(geo_data[geo_data["ADM0_A3"]==ISO_3]["ECONOMY"].values[0]).split(". ")[-1]}'
         )
         st.caption(
-            f'(Income group) {geo_data[geo_data["ADM0_A3"]==ISO_3]["INCOME_GRP"].values[0].split(". ")[-1]}'
+            f'(Income group) {str(geo_data[geo_data["ADM0_A3"]==ISO_3]["INCOME_GRP"].values[0]).split(". ")[-1]}'
         )
         st.caption(
             f'Population: {geo_data[geo_data["ADM0_A3"]==ISO_3]["POP_EST"].apply(int).values[0]:,} (Est. {geo_data[geo_data["ADM0_A3"]==ISO_3]["POP_YEAR"].values[0]})'
@@ -90,34 +75,16 @@ with st.sidebar:
         )
     st.divider()
 
-    if country_info:
-        st.caption(f'Capital: {country_info[0]["capital"][0]}')
-        st.caption(f'Area: {country_info[0].get("area"):,} km2')
-        st.caption(
-            f'Timeszones: {", ".join([x for x in country_info[0]["timezones"]])}'
-        )
-        st.caption(
-            f'Currency: {", ".join([x for x in country_info[0]["currencies"].keys()])}'
-        )
-        st.caption(
-            f'Languages: {", ".join([country_info[0]["languages"][x] for x in country_info[0]["languages"].keys()])}'
-        )
-        if country_info[0].get("gini"):
-            st.caption(
-                [
-                    f'Gini ({x}): {country_info[0]["gini"][x]}'
-                    for x in country_info[0]["gini"].keys()
-                ][0]
-            )
-        if country_info[0].get("borders"):
-            st.caption(
-                f'Borders: {", ".join(geo_data[geo_data["ADM0_A3"].isin(country_info[0].get("borders"))].ADMIN.to_list())}'
-            )
-        st.image(
-            f'{country_info[0]["flags"]["png"]}',
-            caption=f'{country_info[0]["flags"]["alt"]}',
-        )
-        st.image(f'{country_info[0]["coatOfArms"]["png"]}')
+    # TBA:
+    # Capital
+    # Area
+    # Timezones
+    # Currency
+    # Languages
+    # Gini
+    # Borders
+    # Flag
+    # Coat of arms
 
     st.divider()
 
@@ -140,7 +107,7 @@ with col1:
         st.markdown(df[df["country"] == country_selection]["summary"].values[0])
 
 with col2:
-    st.video(df[df["country"] == country_selection]["url"].values[0])
+    st.video(str(df[df["country"] == country_selection]["url"].values[0]))
 
     col3, col4 = st.columns(2)
 

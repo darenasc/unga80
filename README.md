@@ -84,7 +84,7 @@ streamlit run app/app.py
 
 ## Data
 - [UNGA80 Speech urls](https://docs.google.com/spreadsheets/d/1qtqfnRSW24j-XLN7SRKywDCuFatARCH8pUg1Rr6I2vI/export?format=csv&gid=747748046)
-- [Admin 0 – Countries](https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip)
+- [Admin 0 – Countries](http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip)
 
 ## Previous years
 

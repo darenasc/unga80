@@ -21,7 +21,7 @@ def save_json(data: list, country: str, output_path: Path = DATA_DIR / "2025"):
         output_path (Path, optional): . Defaults to DATA_DIR/"2025".
     """
     output_path.mkdir(parents=True, exist_ok=True)
-    with open(output_path / f"{country}.json", "w") as outfile:
+    with open(output_path / f"{country}.json", "w", encoding="utf-8") as outfile:
         json.dump(data, outfile)
 
 
@@ -38,7 +38,7 @@ def get_transcript(video_id: str) -> FetchedTranscript | None:
         ytt_api = YouTubeTranscriptApi()
         transcript = ytt_api.fetch(video_id)
         return transcript
-    except Exception as e:
+    except Exception as e:  # type: ignore
         print(e)
         return None
 
@@ -91,7 +91,7 @@ def get_video_url_list(
         with open(path, "wb") as f:
             f.write(response.content)
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
 
     if save:
         save_spreadsheet(path)
@@ -121,7 +121,7 @@ def get_corpus_from_file(
         print(f"Transcript for {country} not found")
         return None
 
-    with open(path / f"{country}.json") as f:
+    with open(path / f"{country}.json", encoding="utf-8") as f:
         json_data = json.load(f)
     corpus = [x["text"] for x in json_data if x["start"] > start and x["start"] < end]
     large_corpus = " ".join([x for x in corpus])
@@ -129,6 +129,15 @@ def get_corpus_from_file(
 
 
 def get_seconds_from_str(start: str, end: str) -> tuple[int, int]:
+    """Returns the second range in integer.
+
+    Args:
+        start (str): Start time in the video as "HH:MM:SS".
+        end (str): End time in the video as "HH:MM:SS"
+
+    Returns:
+        tuple[int, int]: Start and end times in seconds.
+    """
     if isinstance(start, str):
         hours, minutes, seconds = start.split(":")
         start_seconds = int(hours) * 60 * 60 + int(minutes) * 60 + int(seconds)
