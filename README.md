@@ -63,15 +63,10 @@ git clone https://github.com/darenasc/unga80.git
 cd unga80
 
 # Install dependencies
-pip install pipenv
-python3 -m pipenv install Pipfile
-python3 -m pipenv install -d Pipfile
-
-# Activate Python environment
-pipenv shell
+uv sync
 
 # Run the streamlit app
-streamlit run app/app.py
+uv run streamlit run app/app.py
 ```
 
 ## Tools used
@@ -80,14 +75,14 @@ streamlit run app/app.py
 - sqlite3
 - `artifish/llama3.2-uncensored` model
 - [plotly](https://docs.plotly.com)
-- [REST Countries API](https://restcountries.com)
 
 ## Data
 - [UNGA80 Speech urls](https://docs.google.com/spreadsheets/d/1qtqfnRSW24j-XLN7SRKywDCuFatARCH8pUg1Rr6I2vI/export?format=csv&gid=747748046)
 - [Admin 0 – Countries](http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip)
 
-## Previous years
+## Other years
 
+- [UNGA81](https://unga81.streamlit.app/)
 - [UNGA79](https://unga79.streamlit.app/)
 - [UNGA78](https://unga-speeches-2023.streamlit.app/)
 
